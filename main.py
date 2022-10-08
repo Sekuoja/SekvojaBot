@@ -4,7 +4,11 @@ from tube_loader import yt_loader, direct
 import os
 from advice import nice_advice
 
-bot = Bot(token="")
+
+with open("token.txt", "r") as f:
+    token = f.read()
+
+bot = Bot(token=token)
 
 dp = Dispatcher(bot)
 
