@@ -22,3 +22,5 @@ urllib3==1.26.12
 websockets==10.3
 yarl==1.8.1
 yt-dlp==2022.10.4
+
+pytube~=12.1.0

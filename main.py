@@ -1,7 +1,6 @@
 import asyncio
 from aiogram import Bot, Dispatcher, types
-from tube_loader import yt_loader, direct
-import os
+from tube_stream_loader import yt_stream
 from advice import nice_advice
 
 
@@ -12,18 +11,19 @@ bot = Bot(token=token)
 
 dp = Dispatcher(bot)
 
-@dp.message_handler(commands=["ytd"])
+
+@dp.message_handler(commands=["tubeload"])
 async def youtube_loader(message: types.Message):
     url = message.get_full_command()[1].split(' ')
-    yt_loader(url)
-    file_ext = r".mp3"
-    for f in [x for x in os.listdir(direct) if x.endswith(file_ext)]:
-        await message.answer_audio(open(f"{direct}/{f}", "rb"))
-        os.remove(f"{direct}/{f}")
+    stream = yt_stream(url)
+    for title, file in stream:
+        await message.answer_audio(file.getvalue(), title=title + ".mp3")
+
 
 @dp.message_handler(commands=["advice"])
 async def adv(message: types.Message):
     await message.answer(nice_advice())
+
 
 async def main():
     await dp.start_polling(bot)
